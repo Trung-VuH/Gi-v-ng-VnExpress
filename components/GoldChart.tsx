@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   LineChart, 
   Line, 
@@ -9,12 +9,13 @@ import {
   Legend, 
   ResponsiveContainer 
 } from 'recharts';
-import { Calendar, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { ComputedGoldProduct, HistoryPoint, TimeRange } from '../types';
 
 interface GoldChartProps {
   products: ComputedGoldProduct[];
   historyData: HistoryPoint[];
+  title?: string;
 }
 
 const COLORS = [
@@ -28,10 +29,21 @@ const COLORS = [
   '#4f46e5', // indigo-600
 ];
 
-export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) => {
+export const GoldChart: React.FC<GoldChartProps> = ({ 
+  products, 
+  historyData, 
+  title = "Biểu đồ biến động giá vàng" 
+}) => {
   const [timeRange, setTimeRange] = useState<TimeRange>('30d');
-  const [selectedProductIds, setSelectedProductIds] = useState<string[]>(['world_gold', 'sjc_1l']);
+  // Select first 2 products by default or all if less than 2
+  const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setSelectedProductIds(products.slice(0, 3).map(p => p.id));
+    }
+  }, [products]);
 
   // Filter history data based on time range
   const filteredData = useMemo(() => {
@@ -57,6 +69,9 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
     });
   };
 
+  const hasWorld = products.some(p => p.group === 'world');
+  const hasDomestic = products.some(p => p.group !== 'world');
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6 mb-6">
       {/* Header Controls */}
@@ -64,7 +79,7 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
         <div>
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
             <span className="w-1.5 h-6 bg-gold-500 rounded-full block"></span>
-            Biểu đồ biến động giá vàng
+            {title}
           </h2>
           <p className="text-sm text-gray-500 ml-3.5">Dữ liệu tổng hợp {timeRange === '365d' ? '1 năm' : timeRange.replace('d', ' ngày')}</p>
         </div>
@@ -132,27 +147,31 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
             />
             
             {/* Left Axis for VND */}
-            <YAxis 
-              yAxisId="left"
-              domain={['auto', 'auto']}
-              tickFormatter={(value) => `${value}`}
-              tickLine={false}
-              axisLine={false}
-              tick={{ fill: '#6b7280' }}
-              label={{ value: 'Triệu đồng', angle: -90, position: 'insideLeft', fill: '#9ca3af', style: { textAnchor: 'middle' } }}
-            />
+            {hasDomestic && (
+              <YAxis 
+                yAxisId="left"
+                domain={['auto', 'auto']}
+                tickFormatter={(value) => `${value}`}
+                tickLine={false}
+                axisLine={false}
+                tick={{ fill: '#6b7280' }}
+                label={{ value: 'Triệu đồng', angle: -90, position: 'insideLeft', fill: '#9ca3af', style: { textAnchor: 'middle' } }}
+              />
+            )}
             
             {/* Right Axis for USD (World Gold) */}
-            <YAxis 
-              yAxisId="right"
-              orientation="right"
-              domain={['auto', 'auto']}
-              tickFormatter={(value) => `$${value}`}
-              tickLine={false}
-              axisLine={false}
-              tick={{ fill: '#9ca3af' }}
-              label={{ value: 'USD/ounce', angle: 90, position: 'insideRight', fill: '#9ca3af', style: { textAnchor: 'middle' } }}
-            />
+            {hasWorld && (
+              <YAxis 
+                yAxisId="right"
+                orientation="right"
+                domain={['auto', 'auto']}
+                tickFormatter={(value) => `$${value}`}
+                tickLine={false}
+                axisLine={false}
+                tick={{ fill: '#9ca3af' }}
+                label={{ value: 'USD/ounce', angle: 90, position: 'insideRight', fill: '#9ca3af', style: { textAnchor: 'middle' } }}
+              />
+            )}
 
             <Tooltip 
               contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
@@ -187,7 +206,7 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
       </div>
       
       <div className="mt-4 text-xs text-center text-gray-400 italic">
-        * Lưu ý: Biểu đồ sử dụng 2 trục giá (Trái: VNĐ, Phải: USD)
+        * Biểu đồ tự động hiển thị trục giá phù hợp (USD hoặc VNĐ)
       </div>
     </div>
   );
