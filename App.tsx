@@ -4,11 +4,13 @@ import { GoldTable } from './components/GoldTable';
 import { GoldCard } from './components/GoldCard';
 import { GoldChart } from './components/GoldChart';
 import { Calculator } from './components/Calculator';
-import { HistoryPoint } from './types';
+import { ChartModal } from './components/ChartModal';
+import { ComputedGoldProduct, HistoryPoint } from './types';
 
 const App: React.FC = () => {
   const [data] = useState(getGoldData());
   const [historyData, setHistoryData] = useState<HistoryPoint[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<ComputedGoldProduct | null>(null);
 
   useEffect(() => {
     // Simulate loading historical data
@@ -19,6 +21,10 @@ const App: React.FC = () => {
   const worldGoldData = useMemo(() => data.filter(p => p.group === 'world'), [data]);
   const sjcData = useMemo(() => data.filter(p => p.group === 'sjc'), [data]);
   const otherData = useMemo(() => data.filter(p => p.group !== 'world' && p.group !== 'sjc'), [data]);
+
+  const handleProductClick = (product: ComputedGoldProduct) => {
+    setSelectedProduct(product);
+  };
 
   return (
     <div className="min-h-screen pb-8 bg-gray-50/50">
@@ -54,18 +60,26 @@ const App: React.FC = () => {
             <div className="hidden md:block">
               <GoldTable data={worldGoldData} />
             </div>
-            <div className="md:hidden space-y-2">
+            {/* Mobile Table View */}
+            <div className="md:hidden bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
               {worldGoldData.map(product => (
-                <GoldCard key={product.id} product={product} />
+                <GoldCard 
+                  key={product.id} 
+                  product={product} 
+                  historyData={historyData} 
+                  onClick={() => handleProductClick(product)}
+                />
               ))}
             </div>
           </div>
 
-          <GoldChart 
-            products={worldGoldData} 
-            historyData={historyData} 
-            title="Biểu đồ thế giới"
-          />
+          <div className="hidden md:block">
+            <GoldChart 
+              products={worldGoldData} 
+              historyData={historyData} 
+              title="Biểu đồ thế giới"
+            />
+          </div>
         </section>
 
         {/* SECTION 2: SJC GOLD */}
@@ -79,18 +93,26 @@ const App: React.FC = () => {
             <div className="hidden md:block">
               <GoldTable data={sjcData} />
             </div>
-            <div className="md:hidden space-y-2">
+            {/* Mobile Table View */}
+            <div className="md:hidden bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
               {sjcData.map(product => (
-                <GoldCard key={product.id} product={product} />
+                <GoldCard 
+                  key={product.id} 
+                  product={product} 
+                  historyData={historyData}
+                  onClick={() => handleProductClick(product)}
+                />
               ))}
             </div>
           </div>
 
-          <GoldChart 
-            products={sjcData} 
-            historyData={historyData} 
-            title="Biểu đồ SJC"
-          />
+          <div className="hidden md:block">
+            <GoldChart 
+              products={sjcData} 
+              historyData={historyData} 
+              title="Biểu đồ SJC"
+            />
+          </div>
         </section>
 
         {/* SECTION 3: OTHER PRODUCTS */}
@@ -104,18 +126,26 @@ const App: React.FC = () => {
             <div className="hidden md:block">
               <GoldTable data={otherData} />
             </div>
-            <div className="md:hidden space-y-2">
+            {/* Mobile Table View */}
+            <div className="md:hidden bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
               {otherData.map(product => (
-                <GoldCard key={product.id} product={product} />
+                <GoldCard 
+                  key={product.id} 
+                  product={product} 
+                  historyData={historyData}
+                  onClick={() => handleProductClick(product)}
+                />
               ))}
             </div>
           </div>
 
-          <GoldChart 
-            products={otherData} 
-            historyData={historyData} 
-            title="Biểu đồ vàng khác"
-          />
+          <div className="hidden md:block">
+            <GoldChart 
+              products={otherData} 
+              historyData={historyData} 
+              title="Biểu đồ vàng khác"
+            />
+          </div>
         </section>
 
         {/* Tools Section (Tính giá trị vàng) */}
@@ -129,8 +159,16 @@ const App: React.FC = () => {
           <ul className="list-disc pl-4 space-y-0.5">
             <li>Giá vàng thế giới được quy đổi theo tỷ giá USD ngân hàng chưa bao gồm thuế phí.</li>
             <li>Dữ liệu được cập nhật tự động 15 phút/lần từ các nguồn uy tín.</li>
+            <li>Nhấn vào tên sản phẩm trên điện thoại để xem biểu đồ chi tiết.</li>
           </ul>
         </section>
+
+        {/* Mobile Detail Modal */}
+        <ChartModal 
+          product={selectedProduct}
+          historyData={historyData}
+          onClose={() => setSelectedProduct(null)}
+        />
 
       </main>
     </div>
