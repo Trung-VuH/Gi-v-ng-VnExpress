@@ -34,7 +34,7 @@ const App: React.FC = () => {
             <div className="w-7 h-7 bg-gold-500 rounded-lg flex items-center justify-center text-white font-bold shrink-0 shadow-sm text-sm">
               G
             </div>
-            <h1 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight truncate">Giá Vàng Hôm Nay</h1>
+            <h1 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight truncate">Giá vàng hôm nay</h1>
           </div>
           
           <div className="flex items-center gap-3">

@@ -40,7 +40,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ products }) => {
     <div className="bg-gradient-to-br from-gold-500 to-gold-600 rounded-xl p-4 text-white shadow-lg">
       <div className="flex items-center gap-2 mb-3">
         <CalcIcon className="w-5 h-5" />
-        <h2 className="text-lg font-bold">Tính Giá Trị Vàng Nhanh</h2>
+        <h2 className="text-lg font-bold">Tính giá trị vàng nhanh</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
