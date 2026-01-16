@@ -78,11 +78,6 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
       <td className="px-2 py-3 md:px-4 md:py-4 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
          {product.yesterday.sell.toLocaleString('vi-VN')}
       </td>
-
-      {/* Spread */}
-      <td className="px-3 py-3 md:px-4 md:py-4 text-right text-gray-600 tabular-nums hidden lg:table-cell whitespace-nowrap">
-         {product.spread.toLocaleString('vi-VN', { maximumFractionDigits: 2 })}
-      </td>
     </tr>
   );
 
@@ -99,12 +94,6 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
               <th colSpan={2} className="px-2 py-2 font-semibold text-gray-600 text-center border-r border-gray-200 bg-gray-100 whitespace-nowrap">
                 Hôm qua <span className="text-gray-500 text-xs font-normal inline-block ml-1">({yesterdayDateStr})</span>
               </th>
-              <th rowSpan={2} className="px-3 md:px-4 py-4 font-semibold text-gray-900 text-right align-middle hidden lg:table-cell bg-gray-50 whitespace-nowrap">
-                <div className="flex flex-col items-end">
-                  <span>Chênh lệch</span>
-                  <span className="text-xs font-normal text-gray-500">Mua - Bán</span>
-                </div>
-              </th>
             </tr>
             <tr>
               <th className="px-2 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Mua vào</th>
@@ -117,7 +106,7 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
             {worldGold && renderRow(worldGold)}
             
             <tr className="bg-gray-100/80 border-t border-b border-gray-200">
-              <td colSpan={6} className="px-3 md:px-4 py-2.5">
+              <td colSpan={5} className="px-3 md:px-4 py-2.5">
                 <span className="font-bold text-gray-800 text-sm">Giá vàng trong nước</span>
                 <span className="text-xs text-gray-500 ml-2 font-normal bg-white px-2 py-0.5 rounded border border-gray-200">Đơn vị: Triệu đồng/lượng</span>
               </td>

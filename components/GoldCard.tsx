@@ -49,10 +49,6 @@ export const GoldCard: React.FC<GoldCardProps> = ({ product }) => {
       </div>
       
       <div className="mt-3 pt-2 border-t border-dashed border-gray-200 text-xs text-gray-500">
-         <div className="flex justify-between mb-1">
-             <span className="text-gray-400">Chênh lệch mua/bán:</span>
-             <span className="text-gray-700 font-medium">{product.spread.toLocaleString('vi-VN', { maximumFractionDigits: 2 })}</span>
-         </div>
          <div className="flex justify-between items-end">
              <span className="text-gray-400">Hôm qua:</span>
              <div className="flex gap-3">

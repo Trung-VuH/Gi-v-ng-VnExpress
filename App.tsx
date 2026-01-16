@@ -53,10 +53,6 @@ const App: React.FC = () => {
               <GoldCard key={product.id} product={product} />
             ))}
           </div>
-          
-          <p className="mt-3 text-sm text-gray-500 italic">
-            * Mức độ chênh lệch giá mua và giá bán hôm nay được so sánh với ngày hôm qua
-          </p>
         </section>
 
         {/* 2. Chart Section (Biểu đồ) */}
@@ -74,7 +70,6 @@ const App: React.FC = () => {
           <h3 className="text-gray-900 font-semibold">Lưu ý thị trường</h3>
           <ul className="list-disc pl-4 space-y-1">
             <li>Giá vàng thế giới được quy đổi theo tỷ giá USD ngân hàng chưa bao gồm thuế phí.</li>
-            <li>Mức độ chênh lệch (Spread) càng cao thể hiện rủi ro thanh khoản ngắn hạn càng lớn.</li>
             <li>Dữ liệu được cập nhật tự động 15 phút/lần từ các nguồn uy tín.</li>
           </ul>
         </section>
