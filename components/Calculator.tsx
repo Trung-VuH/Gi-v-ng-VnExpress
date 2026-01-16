@@ -37,30 +37,30 @@ export const Calculator: React.FC<CalculatorProps> = ({ products }) => {
   }, [amount, unit, selectedProduct, products]);
 
   return (
-    <div className="bg-gradient-to-br from-gold-500 to-gold-600 rounded-xl p-6 text-white shadow-lg">
-      <div className="flex items-center gap-2 mb-4">
-        <CalcIcon className="w-6 h-6" />
-        <h2 className="text-xl font-bold">Tính Giá Trị Vàng Nhanh</h2>
+    <div className="bg-gradient-to-br from-gold-500 to-gold-600 rounded-xl p-4 text-white shadow-lg">
+      <div className="flex items-center gap-2 mb-3">
+        <CalcIcon className="w-5 h-5" />
+        <h2 className="text-lg font-bold">Tính Giá Trị Vàng Nhanh</h2>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        {/* Amount Input & Unit Selector - Reduced from 5 to 3 columns on PC */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+        {/* Amount Input & Unit Selector */}
         <div className="md:col-span-3">
-          <label className="block text-sm text-gold-100 mb-1">Nhập số lượng</label>
-          <div className="flex h-12 rounded-lg bg-white/20 border border-white/30 overflow-hidden focus-within:ring-2 focus-within:ring-white/50 transition-all">
+          <label className="block text-xs text-gold-100 mb-1">Nhập số lượng</label>
+          <div className="flex h-10 rounded-lg bg-white/20 border border-white/30 overflow-hidden focus-within:ring-2 focus-within:ring-white/50 transition-all">
             <input 
               type="number" 
               min="0"
               step="0.1"
               value={amount}
               onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
-              className="w-full h-full p-2 bg-transparent text-white placeholder-white/50 focus:outline-none border-r border-white/30 font-medium"
+              className="w-full h-full p-2 bg-transparent text-white placeholder-white/50 focus:outline-none border-r border-white/30 font-medium text-sm"
               placeholder="1"
             />
             <select 
               value={unit}
               onChange={(e) => setUnit(e.target.value as Unit)}
-              className="bg-transparent h-full text-white p-2 focus:outline-none [&>option]:text-gray-900 min-w-[80px] font-medium cursor-pointer hover:bg-white/10"
+              className="bg-transparent h-full text-white p-2 focus:outline-none [&>option]:text-gray-900 min-w-[80px] font-medium cursor-pointer hover:bg-white/10 text-sm"
             >
               <option value="luong">Lượng</option>
               <option value="chi">Chỉ</option>
@@ -69,13 +69,13 @@ export const Calculator: React.FC<CalculatorProps> = ({ products }) => {
           </div>
         </div>
         
-        {/* Product Selector - Kept at 4 columns */}
+        {/* Product Selector */}
         <div className="md:col-span-4">
-          <label className="block text-sm text-gold-100 mb-1">Loại vàng</label>
+          <label className="block text-xs text-gold-100 mb-1">Loại vàng</label>
           <select 
             value={selectedProduct}
             onChange={(e) => setSelectedProduct(e.target.value)}
-            className="w-full h-12 px-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 [&>option]:text-gray-900 cursor-pointer"
+            className="w-full h-10 px-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 [&>option]:text-gray-900 cursor-pointer text-sm truncate"
           >
             {vndProducts.map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
@@ -83,11 +83,11 @@ export const Calculator: React.FC<CalculatorProps> = ({ products }) => {
           </select>
         </div>
 
-        {/* Result Display - Increased from 3 to 5 columns on PC to fit full number */}
+        {/* Result Display */}
         <div className="md:col-span-5">
-          <label className="block text-sm text-gold-100 mb-1 text-right md:text-left">Thành tiền (VND)</label>
-          <div className="h-12 flex items-center px-3 bg-white/10 rounded-lg tabular-nums border border-white/10 w-full">
-            <div className="w-full text-right md:text-left text-xl font-bold">
+          <label className="block text-xs text-gold-100 mb-1 text-right md:text-left">Thành tiền (VND)</label>
+          <div className="h-10 flex items-center px-3 bg-white/10 rounded-lg tabular-nums border border-white/10 w-full">
+            <div className="w-full text-right md:text-left text-lg font-bold">
                {result.toLocaleString('vi-VN')}
             </div>
           </div>

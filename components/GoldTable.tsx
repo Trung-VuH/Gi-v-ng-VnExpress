@@ -34,14 +34,14 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
 
   const renderRow = (product: ComputedGoldProduct) => {
     const commonNameCell = (
-      <td className="px-3 py-3 md:px-4 md:py-4">
-        <div className="flex items-center gap-3">
+      <td className="px-3 py-2.5">
+        <div className="flex items-center gap-2">
           <div>
             <div className="font-medium text-gray-900">
               {product.name}
             </div>
             {product.group === 'world' && (
-              <div className="text-xs text-gray-500 mt-0.5 font-normal">
+              <div className="text-[10px] text-gray-500 font-normal">
                 {product.unit}
               </div>
             )}
@@ -55,12 +55,12 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
       return (
         <tr key={product.id} className="hover:bg-gray-50 transition-colors">
           {commonNameCell}
-          <td className="px-4 py-4 text-right">
+          <td className="px-3 py-2.5 text-right">
             <div className="font-bold text-gray-900 text-lg tabular-nums">
               {product.today.buy.toLocaleString('vi-VN')}
             </div>
           </td>
-          <td className="px-4 py-4 text-right">
+          <td className="px-3 py-2.5 text-right">
             <div className="font-bold text-gray-900 text-lg tabular-nums">
               {product.today.sell.toLocaleString('vi-VN')}
             </div>
@@ -75,32 +75,32 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
         {commonNameCell}
         
         {/* Today Buy */}
-        <td className="px-2 py-3 md:px-4 md:py-4 text-right bg-white/50">
+        <td className="px-2 py-2.5 text-right bg-white/50">
           <div className="font-bold text-gray-900 text-base tabular-nums whitespace-nowrap">
             {product.today.buy.toLocaleString('vi-VN')}
           </div>
-          <div className="flex justify-end mt-1">
+          <div className="flex justify-end mt-0.5">
             <TrendIndicator trend={product.trendBuy} value={product.changeBuy} />
           </div>
         </td>
 
         {/* Today Sell */}
-        <td className="px-2 py-3 md:px-4 md:py-4 text-right bg-white/50">
+        <td className="px-2 py-2.5 text-right bg-white/50">
           <div className="font-bold text-gray-900 text-base tabular-nums whitespace-nowrap">
             {product.today.sell.toLocaleString('vi-VN')}
           </div>
-          <div className="flex justify-end mt-1">
+          <div className="flex justify-end mt-0.5">
             <TrendIndicator trend={product.trendSell} value={product.changeSell} />
           </div>
         </td>
 
         {/* Yesterday Buy */}
-        <td className="px-2 py-3 md:px-4 md:py-4 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
+        <td className="px-2 py-2.5 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
            {product.yesterday.buy.toLocaleString('vi-VN')}
         </td>
 
          {/* Yesterday Sell */}
-        <td className="px-2 py-3 md:px-4 md:py-4 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
+        <td className="px-2 py-2.5 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
            {product.yesterday.sell.toLocaleString('vi-VN')}
         </td>
       </tr>
@@ -116,33 +116,33 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
               // Simplified Header for World Gold
               <>
                 <tr>
-                  <th rowSpan={2} className="px-3 md:px-4 py-4 font-semibold text-gray-900 align-middle border-r border-gray-200 bg-gray-50 whitespace-nowrap">Sản phẩm</th>
-                  <th colSpan={2} className="px-2 py-2 font-semibold text-gray-900 text-center bg-gray-100 whitespace-nowrap">
-                    Giá hiện tại <span className="text-gray-500 text-xs font-normal inline-block ml-1">(USD/ounce)</span>
+                  <th rowSpan={2} className="px-3 py-3 font-semibold text-gray-900 align-middle border-r border-gray-200 bg-gray-50 whitespace-nowrap text-sm">Sản phẩm</th>
+                  <th colSpan={2} className="px-2 py-2 font-semibold text-gray-900 text-center bg-gray-100 whitespace-nowrap text-sm">
+                    Giá hiện tại <span className="text-gray-500 text-[10px] font-normal inline-block ml-1">(USD/ounce)</span>
                   </th>
                 </tr>
                 <tr>
-                  <th className="px-4 py-3 font-semibold text-gray-700 text-right text-sm uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap w-1/4">Mua vào</th>
-                  <th className="px-4 py-3 font-semibold text-gray-700 text-right text-sm uppercase tracking-wider bg-gray-50 whitespace-nowrap w-1/4">Bán ra</th>
+                  <th className="px-3 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap w-1/4">Mua vào</th>
+                  <th className="px-3 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 whitespace-nowrap w-1/4">Bán ra</th>
                 </tr>
               </>
             ) : (
               // Standard Header
               <>
                 <tr>
-                  <th rowSpan={2} className="px-3 md:px-4 py-4 font-semibold text-gray-900 align-middle border-r border-gray-200 bg-gray-50 whitespace-nowrap">Sản phẩm</th>
-                  <th colSpan={2} className="px-2 py-2 font-semibold text-gray-900 text-center border-r border-gray-200 bg-gray-100 whitespace-nowrap">
-                    Hôm nay <span className="text-gray-500 text-xs font-normal inline-block ml-1">({todayDateStr})</span>
+                  <th rowSpan={2} className="px-3 py-3 font-semibold text-gray-900 align-middle border-r border-gray-200 bg-gray-50 whitespace-nowrap text-sm">Sản phẩm</th>
+                  <th colSpan={2} className="px-2 py-1.5 font-semibold text-gray-900 text-center border-r border-gray-200 bg-gray-100 whitespace-nowrap text-xs">
+                    Hôm nay <span className="text-gray-500 text-[10px] font-normal inline-block">({todayDateStr})</span>
                   </th>
-                  <th colSpan={2} className="px-2 py-2 font-semibold text-gray-600 text-center border-r border-gray-200 bg-gray-100 whitespace-nowrap">
-                    Hôm qua <span className="text-gray-500 text-xs font-normal inline-block ml-1">({yesterdayDateStr})</span>
+                  <th colSpan={2} className="px-2 py-1.5 font-semibold text-gray-600 text-center border-r border-gray-200 bg-gray-100 whitespace-nowrap text-xs">
+                    Hôm qua <span className="text-gray-500 text-[10px] font-normal inline-block">({yesterdayDateStr})</span>
                   </th>
                 </tr>
                 <tr>
-                  <th className="px-2 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Mua vào</th>
-                  <th className="px-2 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Bán ra</th>
-                  <th className="px-2 py-2 font-medium text-gray-500 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Mua vào</th>
-                  <th className="px-2 py-2 font-medium text-gray-500 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Bán ra</th>
+                  <th className="px-2 py-2 font-semibold text-gray-700 text-right text-[10px] uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Mua vào</th>
+                  <th className="px-2 py-2 font-semibold text-gray-700 text-right text-[10px] uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Bán ra</th>
+                  <th className="px-2 py-2 font-medium text-gray-500 text-right text-[10px] uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Mua vào</th>
+                  <th className="px-2 py-2 font-medium text-gray-500 text-right text-[10px] uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Bán ra</th>
                 </tr>
               </>
             )}
