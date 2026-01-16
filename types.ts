@@ -13,7 +13,7 @@ export interface GoldProduct {
   id: string;
   name: string;
   group: 'world' | 'sjc' | 'jewelry' | 'regional';
-  unit: 'USD/oz' | 'Triệu đồng/lượng';
+  unit: 'USD/ounce' | 'Triệu đồng/lượng';
   today: PriceDetail;
   yesterday: PriceDetail;
   updatedAt: string;

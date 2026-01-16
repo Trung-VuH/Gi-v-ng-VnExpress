@@ -18,7 +18,7 @@ interface GoldChartProps {
 }
 
 const COLORS = [
-  '#eab308', // gold-500
+  '#9f224e', // New Brand Color
   '#2563eb', // blue-600
   '#dc2626', // red-600
   '#16a34a', // green-600
@@ -66,7 +66,7 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
             <span className="w-1.5 h-6 bg-gold-500 rounded-full block"></span>
             Biểu đồ biến động giá vàng
           </h2>
-          <p className="text-sm text-gray-500 ml-3.5">Dữ liệu tổng hợp {timeRange === '365d' ? '1 năm' : timeRange}</p>
+          <p className="text-sm text-gray-500 ml-3.5">Dữ liệu tổng hợp {timeRange === '365d' ? '1 năm' : timeRange.replace('d', ' ngày')}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -82,7 +82,7 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
                     : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200'
                 }`}
               >
-                {range === '7d' ? '1 Tuần' : range === '30d' ? '1 Tháng' : range === '90d' ? '1 Quý' : '1 Năm'}
+                {range === '7d' ? '7 ngày' : range === '30d' ? '30 ngày' : range === '90d' ? '90 ngày' : '1 năm'}
               </button>
             ))}
           </div>
@@ -151,7 +151,7 @@ export const GoldChart: React.FC<GoldChartProps> = ({ products, historyData }) =
               tickLine={false}
               axisLine={false}
               tick={{ fill: '#9ca3af' }}
-              label={{ value: 'USD/oz', angle: 90, position: 'insideRight', fill: '#9ca3af', style: { textAnchor: 'middle' } }}
+              label={{ value: 'USD/ounce', angle: 90, position: 'insideRight', fill: '#9ca3af', style: { textAnchor: 'middle' } }}
             />
 
             <Tooltip 

@@ -6,7 +6,7 @@ const RAW_DATA: GoldProduct[] = [
     id: 'world_gold',
     name: 'Giá vàng thế giới',
     group: 'world',
-    unit: 'USD/oz',
+    unit: 'USD/ounce',
     // Case: Tăng giá (Up Trend)
     today: { buy: 4625.5, sell: 4628.5 },
     yesterday: { buy: 4600.0, sell: 4602.0 },
