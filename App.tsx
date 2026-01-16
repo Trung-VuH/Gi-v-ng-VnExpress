@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { getGoldData, getHistoryData } from './services/goldData';
 import { GoldTable } from './components/GoldTable';
 import { GoldCard } from './components/GoldCard';
-import { GoldChart } from './components/GoldChart';
 import { Calculator } from './components/Calculator';
 import { ChartModal } from './components/ChartModal';
 import { ComputedGoldProduct, HistoryPoint } from './types';
@@ -58,7 +57,11 @@ const App: React.FC = () => {
           
           <div className="mb-3">
             <div className="hidden md:block">
-              <GoldTable data={worldGoldData} />
+              <GoldTable 
+                data={worldGoldData} 
+                historyData={historyData}
+                onRowClick={handleProductClick}
+              />
             </div>
             {/* Mobile Table View */}
             <div className="md:hidden bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
@@ -72,14 +75,6 @@ const App: React.FC = () => {
               ))}
             </div>
           </div>
-
-          <div className="hidden md:block">
-            <GoldChart 
-              products={worldGoldData} 
-              historyData={historyData} 
-              title="Biểu đồ thế giới"
-            />
-          </div>
         </section>
 
         {/* SECTION 2: SJC GOLD */}
@@ -91,7 +86,11 @@ const App: React.FC = () => {
 
           <div className="mb-3">
             <div className="hidden md:block">
-              <GoldTable data={sjcData} />
+              <GoldTable 
+                data={sjcData} 
+                historyData={historyData}
+                onRowClick={handleProductClick}
+              />
             </div>
             {/* Mobile Table View */}
             <div className="md:hidden bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
@@ -105,14 +104,6 @@ const App: React.FC = () => {
               ))}
             </div>
           </div>
-
-          <div className="hidden md:block">
-            <GoldChart 
-              products={sjcData} 
-              historyData={historyData} 
-              title="Biểu đồ SJC"
-            />
-          </div>
         </section>
 
         {/* SECTION 3: OTHER PRODUCTS */}
@@ -124,7 +115,11 @@ const App: React.FC = () => {
 
           <div className="mb-3">
             <div className="hidden md:block">
-              <GoldTable data={otherData} />
+              <GoldTable 
+                data={otherData} 
+                historyData={historyData}
+                onRowClick={handleProductClick}
+              />
             </div>
             {/* Mobile Table View */}
             <div className="md:hidden bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
@@ -137,14 +132,6 @@ const App: React.FC = () => {
                 />
               ))}
             </div>
-          </div>
-
-          <div className="hidden md:block">
-            <GoldChart 
-              products={otherData} 
-              historyData={historyData} 
-              title="Biểu đồ vàng khác"
-            />
           </div>
         </section>
 
@@ -159,7 +146,7 @@ const App: React.FC = () => {
           <ul className="list-disc pl-4 space-y-0.5">
             <li>Giá vàng thế giới được quy đổi theo tỷ giá USD ngân hàng chưa bao gồm thuế phí.</li>
             <li>Dữ liệu được cập nhật tự động 15 phút/lần từ các nguồn uy tín.</li>
-            <li>Nhấn vào tên sản phẩm trên điện thoại để xem biểu đồ chi tiết.</li>
+            <li>Nhấn vào tên sản phẩm để xem biểu đồ chi tiết.</li>
           </ul>
         </section>
 

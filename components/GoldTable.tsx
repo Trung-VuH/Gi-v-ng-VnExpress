@@ -1,12 +1,15 @@
 import React from 'react';
-import { ComputedGoldProduct } from '../types';
+import { ComputedGoldProduct, HistoryPoint, Trend } from '../types';
 import { TrendIndicator } from './TrendIndicator';
+import { Sparkline } from './Sparkline';
 
 interface GoldTableProps {
   data: ComputedGoldProduct[];
+  historyData: HistoryPoint[];
+  onRowClick: (product: ComputedGoldProduct) => void;
 }
 
-export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
+export const GoldTable: React.FC<GoldTableProps> = ({ data, historyData, onRowClick }) => {
   if (data.length === 0) return null;
 
   const isWorldTable = data.every(p => p.group === 'world');
@@ -33,6 +36,8 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
   const yesterdayDateStr = getYesterdayStr(todayDateStr);
 
   const renderRow = (product: ComputedGoldProduct) => {
+    const chartTrend = product.trendSell === Trend.UP ? 'up' : product.trendSell === Trend.DOWN ? 'down' : 'flat';
+
     const commonNameCell = (
       <td className="px-3 py-2.5">
         <div className="flex items-center gap-2">
@@ -50,10 +55,26 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
       </td>
     );
 
+    const sparklineCell = (
+       <td className="px-3 py-2 w-[120px]">
+          <div className="h-[30px]">
+            <Sparkline 
+              data={historyData} 
+              dataKey={product.id} 
+              trend={chartTrend} 
+            />
+          </div>
+       </td>
+    );
+
     if (isWorldTable) {
       // Simplified Row for World Gold
       return (
-        <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+        <tr 
+          key={product.id} 
+          onClick={() => onRowClick(product)}
+          className="hover:bg-gray-50 transition-colors cursor-pointer group"
+        >
           {commonNameCell}
           <td className="px-3 py-2.5 text-right">
             <div className="font-bold text-gray-900 text-lg tabular-nums">
@@ -65,17 +86,22 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
               {product.today.sell.toLocaleString('vi-VN')}
             </div>
           </td>
+          {sparklineCell}
         </tr>
       );
     }
 
     // Standard Row for other gold types
     return (
-      <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+      <tr 
+        key={product.id} 
+        onClick={() => onRowClick(product)}
+        className="hover:bg-gray-50 transition-colors cursor-pointer group"
+      >
         {commonNameCell}
         
         {/* Today Buy */}
-        <td className="px-2 py-2.5 text-right bg-white/50">
+        <td className="px-2 py-2.5 text-right bg-white/50 group-hover:bg-transparent">
           <div className="font-bold text-gray-900 text-base tabular-nums whitespace-nowrap">
             {product.today.buy.toLocaleString('vi-VN')}
           </div>
@@ -85,7 +111,7 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
         </td>
 
         {/* Today Sell */}
-        <td className="px-2 py-2.5 text-right bg-white/50">
+        <td className="px-2 py-2.5 text-right bg-white/50 group-hover:bg-transparent">
           <div className="font-bold text-gray-900 text-base tabular-nums whitespace-nowrap">
             {product.today.sell.toLocaleString('vi-VN')}
           </div>
@@ -95,14 +121,16 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
         </td>
 
         {/* Yesterday Buy */}
-        <td className="px-2 py-2.5 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
+        <td className="px-2 py-2.5 text-right text-gray-500 tabular-nums bg-gray-50/50 group-hover:bg-transparent whitespace-nowrap">
            {product.yesterday.buy.toLocaleString('vi-VN')}
         </td>
 
          {/* Yesterday Sell */}
-        <td className="px-2 py-2.5 text-right text-gray-500 tabular-nums bg-gray-50/50 whitespace-nowrap">
+        <td className="px-2 py-2.5 text-right text-gray-500 tabular-nums bg-gray-50/50 group-hover:bg-transparent whitespace-nowrap">
            {product.yesterday.sell.toLocaleString('vi-VN')}
         </td>
+
+        {sparklineCell}
       </tr>
     );
   };
@@ -117,13 +145,14 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
               <>
                 <tr>
                   <th rowSpan={2} className="px-3 py-3 font-semibold text-gray-900 align-middle border-r border-gray-200 bg-gray-50 whitespace-nowrap text-sm">Sản phẩm</th>
-                  <th colSpan={2} className="px-2 py-2 font-semibold text-gray-900 text-center bg-gray-100 whitespace-nowrap text-sm">
+                  <th colSpan={2} className="px-2 py-2 font-semibold text-gray-900 text-center bg-gray-100 whitespace-nowrap text-sm border-r border-gray-200">
                     Giá hiện tại <span className="text-gray-500 text-[10px] font-normal inline-block ml-1">(USD/ounce)</span>
                   </th>
+                  <th rowSpan={2} className="px-3 py-3 font-semibold text-gray-900 align-middle bg-gray-50 whitespace-nowrap text-sm text-center">Biểu đồ 7 ngày</th>
                 </tr>
                 <tr>
                   <th className="px-3 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap w-1/4">Mua vào</th>
-                  <th className="px-3 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 whitespace-nowrap w-1/4">Bán ra</th>
+                  <th className="px-3 py-2 font-semibold text-gray-700 text-right text-xs uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap w-1/4">Bán ra</th>
                 </tr>
               </>
             ) : (
@@ -137,6 +166,7 @@ export const GoldTable: React.FC<GoldTableProps> = ({ data }) => {
                   <th colSpan={2} className="px-2 py-1.5 font-semibold text-gray-600 text-center border-r border-gray-200 bg-gray-100 whitespace-nowrap text-xs">
                     Hôm qua <span className="text-gray-500 text-[10px] font-normal inline-block">({yesterdayDateStr})</span>
                   </th>
+                  <th rowSpan={2} className="px-3 py-3 font-semibold text-gray-900 align-middle bg-gray-50 whitespace-nowrap text-sm text-center border-l border-gray-200">Biểu đồ 7 ngày</th>
                 </tr>
                 <tr>
                   <th className="px-2 py-2 font-semibold text-gray-700 text-right text-[10px] uppercase tracking-wider bg-gray-50 border-r border-gray-200 whitespace-nowrap">Mua vào</th>
